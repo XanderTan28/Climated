@@ -37,12 +37,33 @@ export function resolveCityVisualProfile(input: CityVisualInput): CityVisualProf
 }
 
 export function classifyUrbanForm(metrics: UrbanMetrics | null): CityArchetype {
-  if (!metrics || metrics.buildingCount < 20) return 'unclassified'
-  const levelsReliable = metrics.levelCoverage >= 0.08
-  if (levelsReliable && ((metrics.p75Levels ?? 0) >= 10 || metrics.highRiseRatio >= 0.12)) return 'high-rise-core'
-  if (metrics.buildingsPerKm2 >= 420 && (metrics.attachedRatio >= 0.18 || !levelsReliable || (metrics.meanLevels ?? 0) < 5)) return 'dense-low-rise'
-  if (levelsReliable && (metrics.meanLevels ?? 0) >= 4) return 'mid-rise-urban'
-  if (metrics.detachedRatio >= 0.22 || metrics.buildingsPerKm2 < 180) return 'suburban'
+  if (!metrics) return 'unclassified'
+  if (metrics.skylineTowerCount >= 150) return 'high-rise-core'
+  if (metrics.buildingCount < 20) return 'unclassified'
+  const levelSampleCount = Math.round(metrics.levelCoverage * metrics.buildingCount)
+  const levelsReliable = levelSampleCount >= 8
+  const localHighRise = levelsReliable && (
+    (metrics.p75Levels ?? 0) >= 8
+    || metrics.highRiseRatio >= 0.1
+    || (metrics.meanLevels ?? 0) >= 8
+  )
+  if (localHighRise) return 'high-rise-core'
+
+  const strongDetachedPattern = metrics.detachedRatio >= 0.35
+  const sparsePattern = metrics.buildingsPerKm2 < 160 && metrics.attachedRatio < 0.2
+  const lightlyMappedLowDensityPattern = metrics.buildingsPerKm2 < 360 && metrics.levelCoverage < 0.06 && metrics.attachedRatio < 0.2
+  if (strongDetachedPattern || sparsePattern || lightlyMappedLowDensityPattern) return 'suburban'
+
+  const meanLevels = metrics.meanLevels ?? 0
+  const denseLowRisePattern = metrics.buildingsPerKm2 >= 1_500 || metrics.buildingsPerKm2 >= 900 && (
+    metrics.attachedRatio >= 0.3 || metrics.levelCoverage < 0.08 || meanLevels < 4
+  )
+  const compactLowRisePattern = metrics.buildingsPerKm2 >= 420 && (
+    metrics.attachedRatio >= 0.18 || !levelsReliable || meanLevels < 4
+  )
+  if (denseLowRisePattern || compactLowRisePattern) return 'dense-low-rise'
+  if (levelsReliable && meanLevels >= 4) return 'mid-rise-urban'
+  if (metrics.buildingsPerKm2 < 360) return 'suburban'
   return 'mid-rise-urban'
 }
 

@@ -102,3 +102,35 @@ None introduced. Real-provider visual review across a broader city sample is sti
 ### Next recommended step
 
 Review the flat archetypes with several real cities from each urban category and adjust only data-driven thresholds or shared drawing rules where needed.
+
+## 2026-09-15 — Increase and equalize control-panel spacing
+
+### Objective
+
+Increase the spacing between right-panel sections without moving its heading, with the extra space extending content downward.
+
+### Files changed
+
+- Updated `apps/web/src/styles.css`.
+- Updated `scripts/verify-city-layout.mjs`.
+- Updated `docs/session-log.md`.
+
+### Result
+
+The panel is top-anchored and uses equal responsive section gaps: 22px at the full desktop layout, 14px at medium-height desktops, 10px at 720px height, 14px at the narrow desktop breakpoint, and 28px on mobile. The heading retains its prior position and the lower controls move downward without crossing the source footer.
+
+### Important implementation details
+
+The visual smoke script now verifies equal section gaps in addition to overflow, footer, and slider checks. TypeScript, seven Vitest tests, the responsive Edge smoke test, and the production build passed. A small activity-grid row-gap reduction at short desktop heights preserves footer clearance without reducing the requested inter-section spacing.
+
+### Decisions
+
+No architectural or technical decision changed.
+
+### Blockers
+
+None.
+
+### Next recommended step
+
+Review the spacing on the primary target display and tune the responsive gap tokens only if a specific hardware viewport needs a different density.

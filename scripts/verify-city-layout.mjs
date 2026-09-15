@@ -86,15 +86,17 @@ try {
     await pause(200)
     const bounds = await evaluate(`(() => {
       const rect = s => { const r = document.querySelector(s).getBoundingClientRect(); return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height} };
-      return { random:rect('.random-button'), panel:rect('.control-panel'), footer:rect('.data-sources'), scene:rect('.weather-scene'), month:rect('.month-sparkline'), time:rect('.time-orbit'), monthTrack:rect('.spark-line'), timeTrack:rect('.orbit-haze'), bodyWidth:document.documentElement.scrollWidth, bodyHeight:document.documentElement.scrollHeight };
+      return { heading:rect('.control-heading'), monthSection:rect('.month-control'), timeSection:rect('.time-control'), activitySection:rect('.activity-group'), random:rect('.random-experience'), randomButton:rect('.random-button'), panel:rect('.control-panel'), footer:rect('.data-sources'), scene:rect('.weather-scene'), month:rect('.month-sparkline'), time:rect('.time-orbit'), monthTrack:rect('.spark-line'), timeTrack:rect('.orbit-haze'), bodyWidth:document.documentElement.scrollWidth, bodyHeight:document.documentElement.scrollHeight };
     })()`)
-    if (bounds.random.bottom > bounds.panel.bottom + 1) throw new Error(`Random day clipped at ${width}x${height}`)
-    if (bounds.random.bottom > bounds.footer.top + 1) throw new Error(`Footer overlaps Random day at ${width}x${height}: ${JSON.stringify(bounds)}`)
+    if (bounds.randomButton.bottom > bounds.panel.bottom + 1) throw new Error(`Random day clipped at ${width}x${height}`)
+    if (bounds.randomButton.bottom > bounds.footer.top + 1) throw new Error(`Footer overlaps Random day at ${width}x${height}: ${JSON.stringify(bounds)}`)
     if (bounds.bodyWidth > width + 1) throw new Error(`Horizontal overflow at ${width}x${height}`)
     if (width > 900 && Math.abs(bounds.footer.bottom - height) > 1) throw new Error(`Footer not at viewport bottom at ${width}x${height}`)
     if (Math.abs(bounds.month.width - bounds.time.width) > 1) throw new Error(`Month and time controls have different widths at ${width}x${height}: ${bounds.month.width} vs ${bounds.time.width}`)
     if (Math.abs(bounds.month.height - bounds.time.height) > 1) throw new Error(`Month and time controls have different heights at ${width}x${height}: ${bounds.month.height} vs ${bounds.time.height}`)
     if (Math.abs(bounds.monthTrack.width - bounds.timeTrack.width) > 1) throw new Error(`Month and time drawings have different widths at ${width}x${height}: ${bounds.monthTrack.width} vs ${bounds.timeTrack.width}`)
+    const sectionGaps = [bounds.monthSection.top - bounds.heading.bottom, bounds.timeSection.top - bounds.monthSection.bottom, bounds.activitySection.top - bounds.timeSection.bottom, bounds.random.top - bounds.activitySection.bottom]
+    if (Math.max(...sectionGaps) - Math.min(...sectionGaps) > 1) throw new Error(`Control sections have inconsistent gaps at ${width}x${height}: ${sectionGaps.join(', ')}`)
     await capture(`dense-${width}x${height}`)
     results.push({ width,height,...bounds })
   }

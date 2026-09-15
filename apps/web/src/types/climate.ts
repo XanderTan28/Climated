@@ -65,6 +65,7 @@ export interface UrbanMetrics {
   meanLevels: number | null
   p75Levels: number | null
   highRiseRatio: number
+  skylineTowerCount: number
   detachedRatio: number
   attachedRatio: number
 }

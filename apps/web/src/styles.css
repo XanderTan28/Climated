@@ -97,7 +97,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, [role='slider']:focu
 @keyframes rain-fall { to { transform: translate(-50px, 600px); } }
 
 /* Calm, borderless controls with a stable space for every action. */
-.control-panel { min-width: 0; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: clamp(12px, 2vh, 24px); padding: 88px clamp(24px, 3.2vw, 54px) 26px; background: var(--paper); }
+.control-panel { min-width: 0; min-height: 0; display: flex; flex-direction: column; justify-content: flex-start; gap: 22px; padding: clamp(88px, 10.93vh, 118px) clamp(24px, 3.2vw, 54px) 26px; background: var(--paper); }
 .control-heading .eyebrow { display: block; color: #8d958a; }
 .control-heading h2 { margin: 7px 0 0; font: 500 clamp(24px, 2.15vw, 35px)/1.18 'Manrope', sans-serif; letter-spacing: -.045em; overflow-wrap: anywhere; }
 .control-group { margin: 0; flex: 0 0 auto; }
@@ -202,7 +202,7 @@ input[type='range']::-moz-range-thumb { width: 10px; height: 10px; border-radius
 }
 @media (max-height: 820px) and (min-width: 901px) {
   :root { --timeline-height: 72px; }
-  .control-panel { padding-top: 72px; padding-bottom: 24px; gap: 10px; }
+  .control-panel { padding-top: 86px; padding-bottom: 24px; gap: 14px; }
   .control-heading h2 { font-size: 29px; }
   .control-label { margin-bottom: 7px; }
   .activity-grid button { min-height: 50px; padding-top: 8px; padding-bottom: 8px; }
@@ -211,10 +211,11 @@ input[type='range']::-moz-range-thumb { width: 10px; height: 10px; border-radius
 @media (max-height: 760px) and (min-width: 901px) {
   :root { --timeline-height: 72px; }
   .top-nav { height: 64px; }
-  .control-panel { justify-content: flex-start; padding-top: 62px; padding-bottom: 16px; gap: 5px; }
+  .control-panel { padding-top: 62px; padding-bottom: 16px; gap: 10px; }
   .control-heading h2 { font-size: 29px; }
   .control-label { margin-bottom: 7px; }
-  .activity-grid button { min-height: 48px; padding: 7px 10px; }
+  .activity-grid button { min-height: 48px; padding: 4px 10px; }
+  .activity-grid { row-gap: 5px; }
   .inline-score { margin-top: 8px; }
   .scene-heading { top: 86px; }
   .scene-heading h1 { font-size: clamp(39px, 4.2vw, 64px); }
@@ -225,9 +226,9 @@ input[type='range']::-moz-range-thumb { width: 10px; height: 10px; border-radius
 }
 @media (max-width: 1100px) and (min-width: 901px) and (max-height: 820px) {
   :root { --timeline-height: 72px; }
-  .control-panel { padding-top: 68px; padding-bottom: 26px; gap: 9px; }
+  .control-panel { padding-top: 69px; padding-bottom: 26px; gap: 14px; }
   .control-label { margin-bottom: 6px; }
-  .activity-grid button { min-height: 47px; padding-top: 7px; padding-bottom: 7px; }
+  .activity-grid button { min-height: 47px; padding-top: 4px; padding-bottom: 4px; }
   .inline-score { margin-top: 7px; }
   .random-button { min-height: 45px; }
 }
@@ -245,7 +246,7 @@ input[type='range']::-moz-range-thumb { width: 10px; height: 10px; border-radius
   .weather-scene { height: 660px; }
   .scene-heading { top: 103px; }
   .scene-heading h1 { font-size: clamp(41px, 7.4vw, 66px); }
-  .control-panel { padding: 34px 7vw; gap: 24px; }
+  .control-panel { padding: 34px 7vw; gap: 28px; }
   .city-start-state { min-height: 100dvh; }
   .data-sources { width: 100%; gap: 5px; font-size: 9px; }
 }
